@@ -16,15 +16,6 @@ describe('CryptoCharacters', function () {
         this.provider = ethers.getDefaultProvider();
     });
 
-    it('test incrementing tokens', function () {
-        this._chars.getFreeItem.call(OWNER_ADDRESS, OWNER_ADDRESS);
-        this._chars.getFreeItem.call(OWNER_ADDRESS, OWNER_ADDRESS);
-        this._chars.getFreeItem.call(OWNER_ADDRESS, OWNER_ADDRESS);
-        this._chars.getCurrentTokenID().then(result => {
-            expect(result).to.equal(4);
-        });
-    });
-
     it('test bidding', async function () {
         var provider = this.provider;
 
@@ -32,14 +23,24 @@ describe('CryptoCharacters', function () {
         balancePrev = balancePrev.toNumber();
 
         var bidAmount = 100;
-        var tokenID = 1;
-        this._chars.bid.call(OWNER_ADDRESS, tokenID, {value: bidAmount});
+        this._chars.bid.call(OWNER_ADDRESS, {value: bidAmount});
 
         var balanceAfter = await this._chars.getBalance();
         balanceAfter = balanceAfter.toNumber();
-        
-        expect(this._chars.currentBid).to.equal(undefined);
+
         expect(balanceAfter).to.equals(balancePrev + bidAmount);
+    });
+
+    it('test free item', async function () {
+        var provider = this.provider;
+
+        var balancePrev = await this._chars.getBalance();
+        balancePrev = balancePrev.toNumber();
+
+        this._chars.bid({value: 123});
+        console.log("VAI FELADAPULTA");
+
+        expect(this._chars.auction.winner).to.equal(OWNER_ADDRESS);
     });
 
 });

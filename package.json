@@ -31,7 +31,7 @@
     "compile": "npx hardhat compile",
     "console": "npx hardhat console",
     "pretest": "yarn compile",
-    "test": "npx hardhat test",
+    "test": "npx hardhat test --network localhost",
     "deploy": "npx hardhat run scripts/deploy.ts",
     "erc20": "npx hardhat run scripts/erc20.ts",
     "nft": "npx hardhat run scripts/nft.ts --network mainnet",
